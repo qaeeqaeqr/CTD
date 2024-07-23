@@ -1,7 +1,8 @@
 # Cascaded Temporal Difference (CTD)
 
 > author: Yu Wang  
-> last modified: 2024.7.22
+> last modified: 2024.7.23  
+> github:  https://github.com/qaeeqaeqr/CTD
 
 ### Introduction
 
@@ -10,11 +11,9 @@ This is the python implementation for paper
 the Mean-Standard Deviation Shortest Path Problem"
 
 This project implement the CTD algorithm on
-"Sioux Falls network". It should to be easy to use
-this project on other transportation networks.
-
-The "Sioux Falls network" used in this project is obtained
-from [https://github.com/bstabler/TransportationNetworks](https://github.com/bstabler/TransportationNetworks).
+"Sioux Falls network". The "Sioux Falls network" 
+used in this project is obtained from 
+[https://github.com/bstabler/TransportationNetworks](https://github.com/bstabler/TransportationNetworks).
 
 ### Project Structure
 

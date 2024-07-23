@@ -3,7 +3,7 @@ import argparse
 def CTD_Argparser():
     parser = argparse.ArgumentParser(description="Arguments for CTD")
 
-    parser.add_argument('--episodes',         type=int,   metavar='', default=50000,
+    parser.add_argument('--episodes',         type=int,   metavar='', default=10000,
                         help="CTD training episodes")
     parser.add_argument('--epsilon',          type=float, metavar='', default=0.5,
                         help="Epsilon in epsilon-greedy")

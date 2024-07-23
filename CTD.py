@@ -5,11 +5,10 @@ class CTDBase(object):
     def __init__(self):
         pass
 
-    def epsilon_greedy_action(self, state, q_table, A, destination, epsilon):
-        # todo 这里需要考虑一个问题：需要保证不选择来时候的路?
+    def epsilon_greedy_action(self, last_state, state, q_table, A, destination, epsilon):
         rand_number = np.random.rand()
         actions = np.where(A[state, :] == 1)[0]
-        num_action = len(actions)
+
         if state == destination:
             action = destination - 1
         else:
@@ -48,14 +47,14 @@ class CTDBase(object):
 
         for episode_count in range(1, episodes + 1):
             state = origin
-            action = self.epsilon_greedy_action(state, q_table, A, destination, epsilon)
+            action = self.epsilon_greedy_action(state, state, q_table, A, destination, epsilon)
 
             while state != destination:
                 next_state = self.get_next_state(state, action, A, destination)
-                next_action = self.epsilon_greedy_action(next_state, q_table, A, destination, epsilon)
+                next_action = self.epsilon_greedy_action(state, next_state, q_table, A, destination, epsilon)
 
                 reward = self.get_reward(state, action, mean_value, std_value, destination)
-                delta = reward - q_mean_table[state, action]
+                delta = reward - q_mean_table[state, action] + q_mean_table[next_state, next_action]
                 q_mean_table[state, action] += alpha_mean * delta
 
                 delta_variance = delta ** 2 - q_variance_table[state, action]

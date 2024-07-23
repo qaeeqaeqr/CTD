@@ -6,24 +6,6 @@ from Networks.SiouxFalls import SiouxFallsNetwork
 import numpy as np
 
 
-def epsilon_greedy_action(state, q_table, A, destination, epsilon):
-    rand_number = np.random.rand()
-    actions = np.where(A[state, :] == 1)[0]
-    num_action = len(actions)
-    if state == destination:
-        action = destination - 1
-    else:
-        if rand_number >= epsilon:
-            action_q_values = q_table[state, actions]
-            action = actions[np.argmin(action_q_values)]
-        else:
-            action = np.random.choice(actions)
-    return action
-
-
-def get_next_state(state, action, A, destination):
-    return state if state == destination else np.where(A[:, action] == -1)[0][0]
-
 def test_SiouxFalls(origin=1, destination=15, q_table_path='./Q-Tables/SiouxFalls.npy'):
     """
     :param origin: 给定的起点
@@ -51,7 +33,7 @@ def test_SiouxFalls(origin=1, destination=15, q_table_path='./Q-Tables/SiouxFall
                               args,
                               save_path=q_table_path,
     )
-    print('Finish training!\n')
+    print('\nFinish training!\n')
 
     q_table_mean_var = np.load(q_table_path)
     q_mean, q_var = q_table_mean_var[0], q_table_mean_var[1]
@@ -59,12 +41,13 @@ def test_SiouxFalls(origin=1, destination=15, q_table_path='./Q-Tables/SiouxFall
 
     # 下面根据训练好的Q-Table查看最终选择的最优路径
     state = origin
-    action = epsilon_greedy_action(state, q_table, s.A, destination, args.epsilon)
+    action = ctd_4_sioux_falls.epsilon_greedy_action(state, state, q_table, s.A, destination, args.epsilon)
     path = [state + 1]
 
     while state != destination:
-        next_state = get_next_state(state, action, s.A, destination)
-        next_action = epsilon_greedy_action(next_state, q_table, s.A, destination, args.epsilon)
+        next_state = ctd_4_sioux_falls.get_next_state(state, action, s.A, destination)
+        next_action = ctd_4_sioux_falls.epsilon_greedy_action(state, next_state,
+                                                              q_table, s.A, destination, args.epsilon)
 
         state = next_state
         action = next_action
